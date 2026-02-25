@@ -1,0 +1,1051 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.urlScanIo",
+      "typeVersion": 1,
+      "position": [
+        -1792,
+        -48
+      ],
+      "id": "ba24bfa6-f6ad-41bb-86e3-27adf7a58c26",
+      "name": "Perform a scan",
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "scanId": "={{ $json.scanId }}"
+      },
+      "type": "n8n-nodes-base.urlScanIo",
+      "typeVersion": 1,
+      "position": [
+        -1344,
+        -48
+      ],
+      "id": "7e143bbb-0f52-4f7b-89ac-0215e3e799d7",
+      "name": "Get a scan",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "YOUR_GOOGLE_SHEET_ID",
+        "sheetName": "REDACTED",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.scan_timestamp }}",
+            "URL": "={{ $json.url }}",
+            "Risk Score": "={{ $json.risk_score }}",
+            "VT Detections": "={{ $json.vt_malicious }}",
+            "VT Detection Ratio": "={{ $json.vt_malicious }}/{{ $json.vt_malicious + $json.vt_suspicious }}",
+            "URLScan": "={{ $json.urlscan_verdict }}",
+            "Verdict": "={{ $json.risk_level }}",
+            "Screenshot URL": "={{ $json.urlscan_screenshot }}",
+            "Last Analysis Date": "={{ $json.scan_timestamp }}",
+            "URLScan Report": "={{ $json.urlscan_report }}",
+            "VT Result Report": "={{ $json.vt_result_url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Risk Score",
+              "displayName": "Risk Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "VT Detections",
+              "displayName": "VT Detections",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "VT Detection Ratio",
+              "displayName": "VT Detection Ratio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "VT Result Report",
+              "displayName": "VT Result Report",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "URLScan",
+              "displayName": "URLScan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Verdict",
+              "displayName": "Verdict",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URLScan Report",
+              "displayName": "URLScan Report",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Screenshot URL",
+              "displayName": "Screenshot URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Analysis Date",
+              "displayName": "Last Analysis Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "c6f73c62-1005-4689-b9f9-d57cf434a7bf",
+      "name": "Log to High Risk Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        -448,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "YOUR_GOOGLE_SHEET_ID",
+        "sheetName": "REDACTED",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.scan_timestamp }}",
+            "URL": "={{ $json.url }}",
+            "Risk Score": "={{ $json.risk_score }}",
+            "VT Detections": "={{ $json.vt_malicious }}",
+            "VT Detection Ratio": "={{ $json.vt_detection_ratio }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Risk Score",
+              "displayName": "Risk Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "VT Detections",
+              "displayName": "VT Detections",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "VT Detection Ratio",
+              "displayName": "VT Detection Ratio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "a473809e-3b0d-420c-a060-69e131af5796",
+      "name": "Log to Safe Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        -224,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://www.virustotal.com/api/v3/analyses/{{ $json.data.id }}",
+        "authentication": "predefinedCredentialType",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "resource",
+              "value": "https://developers.virustotal.com/v2.0/reference/url-report"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e142050d-4eb2-48ea-80c3-17960b62968e",
+      "name": "VirusTotal: Get report",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -1344,
+        160
+      ],
+      "typeVersion": 4.1
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1120,
+        64
+      ],
+      "id": "444a0d85-3b75-494a-a79f-5f9cb8af39a5",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "const vtReport = $('VirusTotal: Get report').first().json;\nconst urlscanData = $input.first().json;\nconst original = $('Is it URL or IP').first().json;\n\n// ---------- 1. VT Processing ----------\nfunction processVT(vtReportJson) {\n    const attrs = vtReportJson?.data?.attributes || {};\n    const stats = attrs.last_analysis_stats || attrs.stats || null;\n    const results = attrs.last_analysis_results || attrs.results || {};\n\n    if (!stats) return { available: false, score: null, malicious: null, suspicious: 0, harmless: 0, undetected: 0, total: 0, results: {} };\n\n    const vtMalicious = stats.malicious || 0;\n    const vtSuspicious = stats.suspicious || 0;\n    const vtHarmless = stats.harmless || 0;\n    const vtUndetected = stats.undetected || 0;\n    const total = vtMalicious + vtSuspicious + vtHarmless + vtUndetected;\n    const score = total > 0 ? Math.min(Math.round((vtMalicious / total) * 100), 100) : 0;\n\n    // Extract the URL hash from the analysis ID\n    const analysisId = vtReport?.data?.id || '';\n    // format: u-<urlhash>-<timestamp>\n    const vtUrlHash = analysisId.startsWith('u-')\n        ? analysisId.split('-').slice(1, -1).join('-')\n        : '';\n\n    const vt_gui_url = vtUrlHash\n        ? `https://www.virustotal.com/gui/url/${vtUrlHash}`\n        : '';\n\n    return {\n        available: true,\n        score,\n        malicious: vtMalicious > 0,\n        vtMalicious,\n        vt_gui_url,\n        vtSuspicious,\n        vtHarmless,\n        vtUndetected,\n        total,\n        results,\n    };\n}\n\n// ---------- 2. URLScan Processing ----------\nfunction processURLScan(urlscanJson) {\n    // Guard against undefined input entirely\n    if (!urlscanJson || urlscanJson?.errorMessage) {\n        return {\n            available: false,\n            score: null,\n            malicious: null,\n            error: urlscanJson?.errorDescription || 'URLScan unavailable'\n        };\n    }\n\n    const verdicts = urlscanJson?.verdicts;\n    if (!verdicts) {\n        return { available: false, score: null, malicious: null, error: 'No verdicts returned' };\n    }\n\n    const overall = verdicts.overall || {};\n    const engines = verdicts.engines || {};\n    const score = Math.min(Math.max(overall.score || 0, engines.score || 0), 100);\n    const malicious = overall.malicious === true || engines.malicious === true;\n\n    return { available: true, score, malicious, error: null };\n}\n\n// ---------- 3. High-Rep Vendor Check ----------\nfunction checkHighRepVendors(vtResults) {\n    const reliableVendors = [\n        'Kaspersky', 'BitDefender', 'ESET', 'Sophos',\n        'Emsisoft', 'G-Data', 'Webroot', 'Netcraft',\n        'Forcepoint ThreatSeeker', 'Google Safebrowsing'\n    ];\n\n    return reliableVendors.filter(v =>\n        vtResults[v] !== undefined && vtResults[v]?.category === 'malicious'\n    );\n}\n\n// ---------- 4. Source-Aware Hybrid Scoring ----------\nfunction computeHybridScore(vt, us) {\n    // Both unavailable\n    if (!vt.available && !us.available) {\n        return { score: 0, method: 'NO_DATA (both sources unavailable - manual review required)' };\n    }\n\n    // VT only\n    if (vt.available && !us.available) {\n        const score = Math.min(Math.round((vt.score * 0.85) + 10), 100);\n        return { score, method: 'VT_ONLY (URLScan unavailable - single source penalty applied)' };\n    }\n\n    // URLScan only\n    if (!vt.available && us.available) {\n        const score = Math.min(Math.round((us.score * 0.85) + 10), 100);\n        return { score, method: 'URLSCAN_ONLY (VT unavailable - single source penalty applied)' };\n    }\n\n    // Both available - corroborated scoring\n    const maxScore = Math.max(vt.score, us.score);\n    const avgScore = Math.round((vt.score + us.score) / 2);\n\n    if (maxScore >= 70) {\n        return { score: maxScore, method: 'MAX (high-confidence corroborated threat)' };\n    }\n\n    return { score: avgScore, method: 'AVG (consensus - both sources available)' };\n}\n\n// ---------- 5. High-Rep Override ----------\nfunction applyHighRepOverride(currentScore, flaggedVendors, currentMethod) {\n    if (flaggedVendors.length >= 4) {\n        return {\n            score: Math.max(currentScore, 60),\n            method: currentMethod + ' + HIGH_REP_OVERRIDE(critical 4+)',\n        };\n    }\n    if (flaggedVendors.length >= 2) {\n        return {\n            score: Math.max(currentScore, 50),\n            method: currentMethod + ' + HIGH_REP_OVERRIDE(moderate 2+)',\n        };\n    }\n    return { score: currentScore, method: currentMethod };\n}\n\n// ---------- 6. Execute ----------\nconst vt = processVT(vtReport);\nconst us = processURLScan(urlscanData);\nconst flaggedByHighRep = vt.available ? checkHighRepVendors(vt.results) : [];\n\nlet { score: risk_score, method: scoring_method } = computeHybridScore(vt, us);\n\n// Apply high-rep override only if VT data exists\nif (vt.available) {\n    ({ score: risk_score, method: scoring_method } = applyHighRepOverride(risk_score, flaggedByHighRep, scoring_method));\n}\n\n// ---------- 7. Binary Risk Level ----------\nconst risk_level = risk_score >= 50 ? 'HIGH' : 'LOW';\n\n// ---------- 8. Risk Factors ----------\nconst factors = [];\nif (!vt.available) factors.push('VT unavailable');\nif (!us.available) factors.push('URLScan unavailable');\nif (vt.available && vt.vtMalicious > 0) factors.push(`${vt.vtMalicious}/${vt.total} VT engines: malicious`);\nif (vt.available && vt.vtSuspicious > 0) factors.push(`${vt.vtSuspicious} VT engines: suspicious`);\nif (us.available && us.malicious) factors.push('URLScan ML engine: malicious');\nif (us.available && us.score >= 50 && !us.malicious) factors.push(`URLScan score: ${us.score}`);\nif (flaggedByHighRep.length > 0) factors.push(`High-rep vendors: ${flaggedByHighRep.join(', ')}`);\n\nconst risk_factors = factors.length > 0 ? factors.join(' | ') : 'No significant threats detected';\n\n// ---------- 9. Output ----------\nreturn [{\n    json: {\n        url: original.url,\n        risk_score,\n        risk_level,\n        risk_factors,\n        scoring_method,\n        scan_timestamp: original.scan_timestamp,\n        scan_id: original.scan_id,\n\n        vt_available: vt.available,\n        vt_score_raw: vt.score,\n        vt_malicious: vt.vtMalicious,\n        vt_suspicious: vt.vtSuspicious,\n        vt_harmless: vt.vtHarmless,\n        vt_undetected: vt.vtUndetected,\n        vt_result_url: vt.vt_gui_url,\n        vt_detection_ratio: vt.available ? `${vt.vtMalicious}/${vt.total}` : 'N/A',\n        high_rep_vendors_flagged: flaggedByHighRep,\n\n        urlscan_available: us.available,\n        urlscan_score_raw: us.score,\n        urlscan_verdict: !us.available ? 'Unavailable' : us.malicious ? 'Malicious' : 'Clean',\n        urlscan_screenshot: urlscanData?.task?.screenshotURL || '',\n        urlscan_report: urlscanData?.task?.reportURL || '',\n    },\n}];"
+      },
+      "id": "1ec818cd-6e73-4704-b7c5-7d54adbb8806",
+      "name": "Calculate Risk Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -896,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "id": "4febfe3c-1a14-4fd5-b57d-094c96247123",
+      "name": "Wait for Virustotal Scan",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1568,
+        160
+      ],
+      "webhookId": "YOUR_WEBHOOK_ID"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "=🚨 *High Risk IP Detected!*\n\n*IP Address:* {{ $json.data.ipAddress }}\n*Abuse Score:* {{ $json.data.abuseConfidenceScore }}%\n*ISP:* {{ $json.data.isp }}\n*Usage Type:* {{ $json.data.usageType }}\n*Total Reports:* {{ $json.data.totalReports }}\n*Last Reported:* {{ $json.data.lastReportedAt }}\n\n*Action Required:* Investigate and block if necessary.",
+        "otherOptions": {}
+      },
+      "id": "d40b5554-9070-4c7b-905e-9aa44b2ffe41",
+      "name": "Send Slack Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        -1344,
+        352
+      ],
+      "webhookId": "YOUR_WEBHOOK_ID"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.item.json.body;\nconst query = body.url || body.query || body.ip || '';\n\nconst ipv4Regex = /^(\\d{1,3}\\.){3}\\d{1,3}$/;\nconst ipv6Regex = /^([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}$/;\nconst isIP = ipv4Regex.test(query.trim()) || ipv6Regex.test(query.trim());\n\nreturn {\n  json: {\n    ...body,\n    input_value: query,\n    input_type: isIP ? 'ip' : 'url',\n    value_type: isIP ? 'IP' : 'URL',\n    ip: isIP ? query : null,\n    url: !isIP ? query : null,\n    scan_timestamp: new Date().toISOString(),\n    scan_id: Date.now().toString(),\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2240,
+        160
+      ],
+      "id": "34122f24-ab5a-4d56-83e1-7a9cd68637b5",
+      "name": "Is it URL or IP"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "50413513-7944-45fe-8e07-cee4a313a8bb",
+              "leftValue": "={{ $json.input_type }}",
+              "rightValue": "url",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2016,
+        160
+      ],
+      "id": "dd9457ca-534f-4546-a655-de66abee8396",
+      "name": "URL/IP"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "id": "9cf826a0-a1bf-4499-a1f4-e1c69f3b1491",
+      "name": "Wait for URLScan",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1568,
+        -48
+      ],
+      "webhookId": "YOUR_WEBHOOK_ID"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.virustotal.com/api/v3/urls",
+        "authentication": "predefinedCredentialType",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $json.url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9ce0e3fa-98bc-4cf0-9ac2-13ddc32ad3f5",
+      "name": "VirusTotal URL Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1792,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cd42ba54-8163-412f-84f8-8ac4f85fb5fa",
+              "leftValue": "={{ $json.risk_score }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9f50d9d2-d01a-4b88-aa1a-9380177feacf",
+      "name": "Risk Score > 50?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -672,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": "YOUR_SLACK_CHANNEL_ID",
+        "text": "=🚨 *HIGH RISK URL DETECTED* 🚨\n\n*URL:* {{ $json.URL }}\n*Risk Score:* {{ $json['Risk Score'] }}/100\n\n*Threat Intelligence:*\n• VirusTotal: {{ $('Risk Score > 50?').item.json.vt_malicious }} malicious, {{ $('Risk Score > 50?').item.json.vt_suspicious }} suspicious\n• URLScan Verdict: {{ $('Risk Score > 50?').item.json.urlscan_verdict }}\n• URLScan Score: {{ $('Risk Score > 50?').item.json.urlscan_score_raw }}\n\n\n*Reports:*\n• <{{ $('Risk Score > 50?').item.json.urlscan_report }}|URLScan Report>\n• <{{ $('Risk Score > 50?').item.json.urlscan_screenshot }}|Screenshot>\n\n*Scan ID:* {{ $('Risk Score > 50?').item.json.scan_id }}\n*Timestamp:* {{ $('Risk Score > 50?').item.json.scan_timestamp }}",
+        "otherOptions": {}
+      },
+      "id": "24f2d45e-9894-4baa-8a57-01fe5c278b36",
+      "name": "Send Slack Alert2",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        -224,
+        -48
+      ],
+      "webhookId": "YOUR_WEBHOOK_ID"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "33081690-211f-42c6-a806-6dc698583662",
+              "leftValue": "={{ $json.data.abuseConfidenceScore }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f043a27f-c74e-4b79-88aa-ac72e4e836c2",
+      "name": "IF - Abuse Score > 50?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1568,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "YOUR_GOOGLE_SHEET_ID",
+        "sheetName": "REDACTED",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Risk": "Low",
+            "ipAddress": "={{ $json.data.ipAddress }}",
+            "abuseScore": "={{ $json.data.abuseConfidenceScore }}",
+            "usageType": "={{ $json.data.usageType }}",
+            "country": "={{ $json.data.countryCode }}",
+            "isp": "={{ $json.data.isp }}",
+            "totalReports": "={{ $json.data.totalReports }}",
+            "isWhitelisted": "={{ $json.data.isWhitelisted }}",
+            "Domain and Hostname ": "={{ $json.data.domain }} - {{ $json.data.hostnames }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Risk",
+              "displayName": "Risk",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ipAddress",
+              "displayName": "ipAddress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "abuseScore",
+              "displayName": "abuseScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Domain and Hostname ",
+              "displayName": "Domain and Hostname ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "usageType",
+              "displayName": "usageType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "isp",
+              "displayName": "isp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "totalReports",
+              "displayName": "totalReports",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "isWhitelisted",
+              "displayName": "isWhitelisted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1344,
+        736
+      ],
+      "id": "d19c6006-cd0e-4503-9c11-9ca4991dc266",
+      "name": "Append row in sheet2"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=🔍 URL Scan Results\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📊 Risk Level: {{ $('Calculate Risk Score').item.json.risk_level }} (Score: {{ $json['Risk Score'] }}/10)\n🔗 URL: {{ $('Calculate Risk Score').item.json.url }}\n\n🛡️ VirusTotal: {{ $('Calculate Risk Score').item.json.vt_malicious }} malicious detections\n🌐 URLScan: {{ $('Calculate Risk Score').item.json.urlscan_verdict }}\n\n📄 Full Report: {{ $('Calculate Risk Score').item.json.urlscan_report }}\n📸 Screenshot: {{ $('Calculate Risk Score').item.json.urlscan_screenshot }}\n\n⏰ Scanned: {{ $('Calculate Risk Score').item.json.scan_timestamp }}",
+        "options": {}
+      },
+      "id": "5bbd01a5-be82-40e9-bc3e-6e2025d044a5",
+      "name": "Respond to Webhoo1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        16,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "id": "c921a2bc-ba3f-4288-a1bb-59af4765550c",
+      "name": "Respond to Webhook2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        -1120,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.abuseipdb.com/api/v2/check?ipAddress={{ $json.ip }}&maxAgeInDays=90",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Key",
+              "value": "YOUR_RESOURCE_ID"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2e18a99c-9a01-4dbc-8886-660a3119ee46",
+      "name": "Check IP - AbuseIPDB1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1792,
+        544
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "YOUR_GOOGLE_SHEET_ID",
+        "sheetName": "REDACTED",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Risk": "High",
+            "ipAddress": "={{ $json.data.ipAddress }}",
+            "abuseScore": "={{ $json.data.abuseConfidenceScore }}",
+            "country": "={{ $json.data.countryCode }}",
+            "usageType": "={{ $json.data.usageType }}",
+            "isp": "={{ $json.data.isp }}",
+            "Domain and Hostname ": "={{ $json.data.domain }} - {{ $json.data.hostnames }}",
+            "totalReports": "={{ $json.data.totalReports }}",
+            "isWhitelisted": "={{ $json.data.isWhitelisted }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Risk",
+              "displayName": "Risk",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ipAddress",
+              "displayName": "ipAddress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "abuseScore",
+              "displayName": "abuseScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Domain and Hostname ",
+              "displayName": "Domain and Hostname ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "usageType",
+              "displayName": "usageType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "isp",
+              "displayName": "isp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "totalReports",
+              "displayName": "totalReports",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "isWhitelisted",
+              "displayName": "isWhitelisted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1344,
+        544
+      ],
+      "id": "a5ac01df-b28a-4d64-97c8-09ad8a464231",
+      "name": "Append row in sheet3"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "url-scan",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "713e3282-81c9-40ad-b952-ff3a07074788",
+      "name": "Webhook Trigger1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        -2464,
+        160
+      ],
+      "webhookId": "YOUR_WEBHOOK_ID"
+    }
+  ],
+  "connections": {
+    "Perform a scan": {
+      "main": [
+        [
+          {
+            "node": "Wait for URLScan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a scan": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to High Risk Sheet": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Alert2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to Safe Sheet": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhoo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VirusTotal: Get report": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Calculate Risk Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Risk Score": {
+      "main": [
+        [
+          {
+            "node": "Risk Score > 50?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Virustotal Scan": {
+      "main": [
+        [
+          {
+            "node": "VirusTotal: Get report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is it URL or IP": {
+      "main": [
+        [
+          {
+            "node": "URL/IP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "URL/IP": {
+      "main": [
+        [
+          {
+            "node": "Perform a scan",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "VirusTotal URL Check",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check IP - AbuseIPDB1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for URLScan": {
+      "main": [
+        [
+          {
+            "node": "Get a scan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VirusTotal URL Check": {
+      "main": [
+        [
+          {
+            "node": "Wait for Virustotal Scan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Risk Score > 50?": {
+      "main": [
+        [
+          {
+            "node": "Log to High Risk Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log to Safe Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Slack Alert2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhoo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Abuse Score > 50?": {
+      "main": [
+        [
+          {
+            "node": "Send Slack Alert",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check IP - AbuseIPDB1": {
+      "main": [
+        [
+          {
+            "node": "IF - Abuse Score > 50?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet3": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Is it URL or IP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
